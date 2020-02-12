@@ -1,2 +1,4 @@
 # chungheon-public-projects.github.io
-Website to showcase javascript projects
+Welcome to my projects github.
+
+This account contains all projects that I wish to be published for viewing.
