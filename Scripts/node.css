@@ -1,0 +1,158 @@
+@keyframes weightAnim {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.7);
+  }
+
+  75% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes visitedAnimation {
+    0% {
+      transform: scale(0.3);
+      background-color: rgba(0, 0, 66, 0.75);
+      border-radius: 100%;
+    }
+  
+    50% {
+      background-color: rgba(17, 104, 217, 0.75);
+    }
+  
+    75% {
+      transform: scale(1.2);
+      background-color: rgba(0, 217, 159, 0.75);
+    }
+  
+    100% {
+      transform: scale(1);
+      background-color: rgba(0, 190, 218, 0.75);
+    }
+}
+
+@keyframes wallAnim {
+  0% {
+    transform: scale(1);
+    background-color: black;
+  }
+
+  50% {
+    transform: scale(0.8);
+    background-color: black;
+  }
+
+  75% {
+    transform: scale(1.2);
+    background-color:  black;
+  }
+
+  100% {
+    transform: scale(1);
+    background-color:  black;
+  }
+}
+
+
+@keyframes endNodeAnim {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.7);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes startNodeAnim {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+td.noanimvisit{
+  background-color:  rgba(0, 190, 218, 0.75);
+}
+
+td.shortestpath{
+  background:greenyellow;
+}
+
+td.weight{
+  animation-name: weightAnim;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  background-image:url('../Icons/weight.png');
+  background-size:contain;
+}
+
+td.visited{
+  animation-name: visitedAnimation;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+td.wall{
+  border-color: black;
+  animation-name: wallAnim;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+td.node-start{
+  background-color: lightsalmon;
+  animation-name: startNodeAnim;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  background-image:url('../Icons/start.png');
+  background-size: contain;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
+td.node-end{
+  background-color: lightskyblue;
+  animation-name: endNodeAnim;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  background-image:url('../Icons/goal.png');
+  background-size: contain;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
