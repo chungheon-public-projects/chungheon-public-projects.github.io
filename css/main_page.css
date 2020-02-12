@@ -1,0 +1,36 @@
+body, html{
+    height: 100%;
+    margin: 0;
+}
+
+.bg{
+    background: url(../resources/background.png);
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.message{
+    background: url(../resources/message.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size: 0px;
+    height: 15%;
+    width: 30%;
+    position: absolute;
+    top: 4%;
+    left: 35%    
+}
+
+.options{
+    position: absolute;
+    top: 34%;
+    width: 200px;
+    display: inline-flex;
+}
