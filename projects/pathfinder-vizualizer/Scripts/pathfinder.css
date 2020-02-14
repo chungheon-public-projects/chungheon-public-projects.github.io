@@ -4,12 +4,10 @@ body{
     padding: 0px;
 }
 
-div.legend{
-  height: 80px;
-}
-
 table{
     background: white;
+    width: 95%;
+    min-width: 900px;
 }
 
 table th,td {
@@ -17,17 +15,30 @@ table th,td {
     margin: 0px;
     padding: 0px;
     font-size: 0px;
-    width: 24px;
     height: 24px;
+    background-repeat: no-repeat;
 }
 
 div.buttons{
     width: 100%;
     display: inline-block;
-    margin: 0px;
-    padding: 0px;
     font-size: 0px;
     background-color: black;
+}
+
+.legend{
+  height: 80px;
+  font-size: 0px;
+  text-align: center;
+}
+
+.legend ul div{
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 30px;
+  width: 150px;
+  vertical-align: top;
 }
 
 div.buttons h3{

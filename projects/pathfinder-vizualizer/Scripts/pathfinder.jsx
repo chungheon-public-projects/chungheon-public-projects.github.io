@@ -322,7 +322,14 @@ function setAlgoListener(element, choice) {
     var pf = this.pathFinder;
     element.addEventListener("click", function (e) {
         pf.algoChoice = choice;
+        setMessage(choice);
     });
+}
+
+function setMessage(choice){
+    switch(choice){
+        
+    }
 }
 
 function customMazeList() {

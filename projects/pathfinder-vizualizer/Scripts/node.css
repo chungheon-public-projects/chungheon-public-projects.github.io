@@ -107,6 +107,7 @@ td.weight{
   animation-play-state: running;
   background-image:url('../Icons/weight.png');
   background-size:contain;
+  background-repeat: no-repeat;
 }
 
 td.visited{
