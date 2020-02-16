@@ -24,11 +24,12 @@ div.buttons{
     display: inline-block;
     font-size: 0px;
     background-color: black;
+    min-width: 450px;
 }
 
 .legend{
-  height: 80px;
   font-size: 0px;
+  min-width: 450px;
   text-align: center;
 }
 
@@ -39,6 +40,12 @@ div.buttons{
   height: 30px;
   width: 150px;
   vertical-align: top;
+}
+
+.explanation{
+  text-align: center;
+  min-width: 450px;
+  cursor: default;
 }
 
 div.buttons h3{

@@ -49,7 +49,7 @@ function visitNode(currNode, mode) {
 function runSearchAlgo(startNode, endNode, mode, algoType) {
     switch (algoType) {
         case 1: algo = new breadthFirst(this.pathFinder.grid); break;
-        case 2: algo = new djkstraAlgo(this.pathFinder.grid); break;
+        case 2: algo = new dijkstraAlgo(this.pathFinder.grid); break;
         case 3: algo = new greedyAlgo(this.pathFinder.grid); break;
         case 4: algo = new aStarAlgo(this.pathFinder.grid); break;
         case 5: algo = new depthFirstAlgo(this.pathFinder.grid); break;
@@ -146,7 +146,7 @@ class breadthFirst {
     }
 }
 
-class djkstraAlgo {
+class dijkstraAlgo {
     constructor(grid) {
         this.grid = grid;
         this.numVisited = 0;

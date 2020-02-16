@@ -327,9 +327,32 @@ function setAlgoListener(element, choice) {
 }
 
 function setMessage(choice){
+    console.log(choice + " selected");
+    var element = document.getElementById('algoexp');
+    var msg = 'Please select an algorithm to begin.';
     switch(choice){
-        
+        case 1: msg = 'Breadth-First Search is not weighted. ';
+        msg += 'Weights are ignored, searches nearest to the starting point and branches out.';
+        break;
+        case 2: msg = 'Dijkstra Search is WEIGHTED. Weights carry a significance of 5 steps. ';
+        msg += 'Shortest path to goal is guaranteed, searches the least weighted path outwards starting point.';
+        break;
+        case 3: msg = 'Greedy Best-First Search is not weighted. ';
+        msg += 'Weights are ignored, searches towards the direction of the goal. ';
+        msg += 'Does not  (Excluding weights).';
+        break;
+        case 4: msg = 'A*(star) Search is weighted. ';
+        msg += 'Weights carry a significance of 5 steps. ';
+        msg += 'Shortest path to goal is guaranteed, searches the least weighted path outwards from starting point ';
+        msg += 'and towards the direction of the goal';
+        break;
+        case 5: msg = 'Depth-First Search is not weighted. ';
+        msg += 'Weights are ignored, search in directions following top, left, right, down until it hits ';
+        msg += 'a wall and the it repeats until the goal is found.';
+        break;
     }
+
+    element.innerText = msg;
 }
 
 function customMazeList() {
