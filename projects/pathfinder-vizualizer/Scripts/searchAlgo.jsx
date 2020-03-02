@@ -70,7 +70,6 @@ function runSearchAlgo(startNode, endNode, mode, algoType) {
             showPathToEnd(algo.goal, algo.numVisited, mode)
         }
     }
-    
 }
 
 class breadthFirst {
@@ -480,7 +479,6 @@ class depthFirstAlgo {
         //Add this neighbour node to array of neighbour nodes
         prevVisitedNodes.push(currNode);
     }
-
 }
 
 /*

@@ -1,36 +1,109 @@
 body, html{
-    height: 100%;
-    margin: 0;
-}
-
-.bg{
     background: url(../resources/background.png);
-
-    /* Full height */
-    height: 100%; 
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+        /* Center and scale the image nicely */
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100%;
+        margin: 0;
 }
 
-.message{
-    background: url(../resources/message.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+
+
+#navigation{
+    width: 100%;
+    display: inline-flexbox;
+    background-size: contain;
     font-size: 0px;
-    height: 15%;
-    width: 30%;
-    position: absolute;
-    top: 4%;
-    left: 35%    
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background: white
+}
+#navigation ul{
+    height: 100%;
+    font-size: 0;
 }
 
-.options{
+
+#navigation ul li{
+    display: inline-block;
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 15px 20px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+}
+
+#navigation ul li:hover{
+    color: rgb(121, 154, 224);
+    background: rgba(0, 0, 0, 0.041); 
+    transition: 0.4s;
+}
+
+#navigation img{
+    width: 30px;
+    margin-left: 20%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.content{
+    font-size: 0px;
+    text-align: center;
+}
+
+#about{
+    height: 50vh;
+    display: inline-block;
+    width: 100%;
+    background: rgba(255, 0, 0, 0.226);
+    position: relative;
+    object-fit: contain;
+}
+
+
+#about .aboutme{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    
+}
+
+#about .rightbtn{
     position: absolute;
-    top: 34%;
-    width: 200px;
-    display: inline-flex;
+    background: rgba(255, 255, 255, 0.548);
+    top:50%;
+    right:10%;
+    height: 20px;
+    width: 20px;
+}
+
+#about .leftbtn{
+    position: absolute;
+    background: rgba(255, 255, 255, 0.548);
+    top:50%;
+    left:10%;
+    height: 20px;
+    width: 20px;
+}
+
+
+#projects{
+    display: inline-block;
+    height: 500px;
+    width: 100%;
+    background: rgba(115, 255, 0, 0.301);
+}
+
+#android{
+    display: inline-block;
+    height: 500px;
+    width: 100%;
+    background: rgba(0, 255, 255, 0.384);
 }

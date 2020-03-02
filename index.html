@@ -4,21 +4,35 @@
 <head>
     <title>Welcome! :)</title>
     <link rel="stylesheet" href="css/main_page.css">
-    <meta http-equiv = "refresh" content = "2; url = https://chungheon-public-projects.github.io/projects/pathfinder-vizualizer/pathfinder_vizualizer.html" />
+    <script type="text/javascript" src="./main.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
-<!--
-<body>
+
+<body onload="setStyles()">
     <div class="bg">
-        <div class="message">Welcome!</div>
-        <div class="options">
-            <ul>
-                <a href="projects/pathfinder-vizualizer/pathfinder_vizualizer.html">Pathfinding Visualizer</a>
-                <a href="https://github.com/chungheon-public-projects">Github Profile</a>
+        <div id="navigation" style="z-index: 2;">
+            <ul id="navbar">
+                <li class="path">ABOUT ME</li>
+                <li class="path">Public Projects</li>
+                <li class="path">Android Projects</li>
             </ul>
+        </div>
+        <div class="content" style="z-index: 1;">
+            <div id="about">
+                <img class="aboutme" ondrag="imgDrag(event)">
+                    <div class="leftbtn" onclick="plusDivs(-1)"></div>
+                    <div class="rightbtn" onclick="plusDivs(1)"></div>
+                </img>
+            </div>
+            <div id="projects">
+
+            </div>
+            <div id="android">
+
+            </div>
         </div>
     </div>
 </body>
--->
 
 </html>

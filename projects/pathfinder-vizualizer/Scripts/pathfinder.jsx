@@ -42,13 +42,13 @@ class Pathfinder {
         var myTable = "<table id=\"displayTable\" align=\"center\" cellspacing=\"0\" ondragover=\"allowDrop(event)\">"
 
         for (var i = 0; i < this.grid.length; i++) {
-            myTable += "<tr>"
+            myTable += "<tr>";
             for (var j = 0; j < this.grid[i].length; j++) {
                 myTable += this.grid[i][j].render();
             }
-            myTable += "</tr>"
+            myTable += "</tr>";
         }
-        myTable += "</table>"
+        myTable += "</table>";
 
         return myTable;
     }

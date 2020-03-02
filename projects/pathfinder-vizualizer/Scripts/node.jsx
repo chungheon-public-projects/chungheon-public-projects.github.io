@@ -5,7 +5,7 @@ class Node{
         this.isStart = isStart;
         this.isEnd = isEnd;
         this.isVisited = 0;
-        this.isWeight = 0
+        this.isWeight = 0;
         this.totalWeight = 1;
         this.prevNode;
         this.isWall = 0;
@@ -20,7 +20,7 @@ class Node{
     }
 
     render(){
-        var node = "<td class=\""
+        var node = "<td class=\"";
         if(this.isStart == 1){
             node += "node-start";
         }else if(this.isEnd == 1){
@@ -31,7 +31,7 @@ class Node{
             node += "noanimvisit";
         }
         
-        node += "\" id=\"node-" + this.rowNum + "-"+ this.colNum + "\" ondragstart=\"allowDrag(event)\">Node "+ this.rowNum + " " + this.colNum + "</td>"
+        node += "\" id=\"node-" + this.rowNum + "-"+ this.colNum + "\" ondragstart=\"allowDrag(event)\">Node "+ this.rowNum + " " + this.colNum + "</td>";
 
         return node;
     }
@@ -39,13 +39,13 @@ class Node{
     getEstimate(beginRow, beginCol){
         var est = 0;
         if(this.rowNum >= beginRow){
-            est += this.rowNum - beginRow
+            est += this.rowNum - beginRow;
         }else{
             est += beginRow - this.rowNum;
         }
 
         if(this.colNum >= beginCol){
-            est += this.colNum - beginCol
+            est += this.colNum - beginCol;
         }else{
             est += beginCol - this.colNum;
         }
