@@ -20,6 +20,11 @@ body, html{
 #navigation ul{
     height: 100%;
     font-size: 0;
+    user-select: none; /* standard syntax */
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
 }
 
 
@@ -31,11 +36,12 @@ body, html{
     font-weight: bold;
     color: rgb(230, 230, 230);
     cursor: default;
+    margin-right: 10px;
 }
 
 #navigation ul li:hover{
     color: rgb(243, 228, 96);
-    transform: scale(1.2);
+    transform: scale(1.1);
     transition: 0.4s;
 }
 
@@ -61,6 +67,11 @@ body, html{
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;
+    user-select: none; /* standard syntax */
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
 }
 
 #about .msg{
@@ -70,7 +81,7 @@ body, html{
     color: rgb(230, 230, 230);
     position: relative;
     top: 30vh;
-    background: black;
+    background: rgb(0, 0, 49);
     cursor: default;
 }
 
@@ -119,7 +130,7 @@ body, html{
     width: 100%;
     position: relative;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
 }
 
