@@ -5,6 +5,9 @@ function setStyles(){
     c.style.paddingTop = "25px";
     c.style.paddingBottom = "25px";
   }
+  var navBar = document.getElementById("navbar");
+  navBar.style.background = "rgba(0, 0, 0, 0)";
+  
   addAnim();
 }
 
@@ -12,6 +15,14 @@ window.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
   var e = document.getElementsByClassName("path");
+  var navBar = document.getElementById("navbar");
+
+  if(document.documentElement.scrollTop > 700){
+    navBar.style.background = "rgba(0, 0, 0, 0.5)";
+  }else{
+    navBar.style.background = "rgba(0, 0, 0, 0)";
+  }
+
   if (document.documentElement.scrollTop > 50) {
     for(var c of e){
       c.style.paddingTop = "15px";
@@ -23,10 +34,6 @@ function scrollFunction() {
       c.style.paddingBottom = "25px";
     }
   }
-}
-
-function allowDrag(ev) {
-  ev.preventDefault();
 }
 
 function addAnim(){

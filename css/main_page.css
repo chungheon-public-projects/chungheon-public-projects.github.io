@@ -7,17 +7,20 @@ body, html{
         margin: 0;
 }
 
-
-
 #navigation{
     width: 100%;
-    display: inline-flexbox;
-    font-size: 0px;
     position: absolute;
-    top: 0;
     text-align: right;
 }
-#navigation ul{
+#navbar{
+    width: 100%;
+    font-size: 0px;
+    position: fixed;
+    top:0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#navbar ul{
     height: 100%;
     font-size: 0;
     user-select: none; /* standard syntax */
@@ -45,13 +48,6 @@ body, html{
     transition: 0.4s;
 }
 
-#navigation img{
-    width: 30px;
-    margin-left: 20%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
 #content{
     position: absolute;
     top: 0;
@@ -59,7 +55,6 @@ body, html{
 }
 
 #about{
-    height: 100vh;
     background: url(../resources/about_bg.jpg);
     width: 100%;
     position: relative;
@@ -124,19 +119,26 @@ body, html{
     background: rgba(0, 0, 0, 0.397);
 }
 
+.projectlist{
+}
+
 #projects{
-    height: 80vh;
-    background: url(../resources/about_bg.jpg);
+    min-height: 70vh;
+    background: beige;
     width: 100%;
-    position: relative;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    text-align: center;
 }
 
 #android{
-    height: 80vh;
+    min-height: 70vh;
     width: 100%;
     position: relative;
     background: rgba(0, 255, 255, 0.384);
+}
+
+#contactinfo{
+    height: 30em;
+    font-size: 20px;
+    width: 100%;
+    background: black;
 }
