@@ -232,3 +232,7 @@ function validateSolution(){
         return;
     }
 }
+
+function allowDrag(ev) {
+    ev.preventDefault();
+}

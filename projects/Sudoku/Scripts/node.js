@@ -78,7 +78,3 @@ class Node{
         element.classList = "";
     }
 }
-
-function allowDrag(ev) {
-    ev.preventDefault();
-}

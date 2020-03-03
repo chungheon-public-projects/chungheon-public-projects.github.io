@@ -4,6 +4,7 @@
 <head>
     <title>Welcome! :)</title>
     <link rel="stylesheet" href="css/main_page.css">
+    <link rel="stylesheet" href="css/anim.css">
     <script type="text/javascript" src="./main.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,19 +12,20 @@
 
 <body onload="setStyles()">
     <div class="bg">
-        <div id="navigation" style="z-index: 2;">
+        <div id="navigation" style="z-index: 4;">
             <ul id="navbar">
-                <li class="path">ABOUT ME</li>
+                <li class="path">RESUME</li>
                 <li class="path">Public Projects</li>
                 <li class="path">Android Projects</li>
             </ul>
         </div>
-        <div class="content" style="z-index: 1;">
-            <div id="about">
-                <img class="aboutme" ondrag="imgDrag(event)">
-                    <div class="leftbtn" onclick="plusDivs(-1)"></div>
-                    <div class="rightbtn" onclick="plusDivs(1)"></div>
-                </img>
+        <div class="content">
+            <div id="about" style="z-index: 1;">
+                <div class="abcontainer" style="z-index: 3;">
+                    <div class="msg">SOFTWARE ENGINEER.</div>
+                    <div class="contact" style="margin-left: 20px;">RESUME</div>
+                    <div class="contact" style="margin-left: 20px;");">CONTACT</div>
+                </div>
             </div>
             <div id="projects">
 
