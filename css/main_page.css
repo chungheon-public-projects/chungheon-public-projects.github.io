@@ -17,7 +17,6 @@ body, html{
     font-size: 0px;
     position: fixed;
     top:0;
-    background: rgba(0, 0, 0, 0.5);
 }
 
 #navbar ul{
@@ -28,6 +27,8 @@ body, html{
     -moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit (konqueror) browsers */
     -ms-user-select: none; /* IE10+ */
+    position: relative;
+    right: 5vh;
 }
 
 
@@ -49,19 +50,20 @@ body, html{
 }
 
 #content{
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
 }
 
 #about{
-    background: url(../resources/about_bg.jpg);
+    min-height: 500px;
     width: 100%;
+    height: auto;
+    background: url("../resources/about_bg.jpg");
     position: relative;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    text-align: center;
     user-select: none; /* standard syntax */
     -webkit-user-select: none; /* webkit (safari, chrome) browsers */
     -moz-user-select: none; /* mozilla browsers */
@@ -69,35 +71,37 @@ body, html{
     -ms-user-select: none; /* IE10+ */
 }
 
-#about .msg{
+.abcontainer{
+    text-align: center;
+    min-height: 500px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.397);
+}
+
+#msg{
     font-size: 60px;
     font-family: "Segoe UI", "Lucida Grande", "Ubuntu", "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-weight: bold;
     color: rgb(230, 230, 230);
     position: relative;
-    top: 30vh;
-    background: rgb(0, 0, 49);
+    top: 35%;
+    background: black;
     cursor: default;
 }
 
-.msganim{
-    animation: msgAnim;
-    animation-delay: 0;
-    animation-duration: 4s;
-    animation-iteration-count: 0;
-    animation-direction: normal;
-    animation-play-state: running;
+#about .contacts{
+    position: relative;
+    top: 40%;
 }
 
 #about .contact{
-    position: relative;
-    top: 35vh;
     display: inline-block;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     padding: 10px 20px;
     font-size: 20px;
     text-align: center;
+    border-radius: 10px;
     cursor: default;
     background-size: cover;
     background-repeat: no-repeat;
@@ -105,28 +109,53 @@ body, html{
     cursor: pointer;
     border: 2px solid white;
     color: white;
+    -webkit-transition: all 0.4s ease-out;
+    -moz-transition: all 0.4s ease-out;
+    -o-transition: all 0.4s ease-out;
+    -ms-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
 }
 
 #about .contact:hover{
-    transition: 1s;
+    -webkit-transition: all 0.4s ease-in;
+   -moz-transition: all 0.4s ease-in;
+   -o-transition: all 0.4s ease-in;
+   -ms-transition: all 0.4s ease-in;
+   transition: all 0.4s ease-in;
     background-color: rgba(0, 0, 0, 0.349);
-    border-radius: 10px;
-}
-
-.abcontainer{
-    text-align: center;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.397);
-}
-
-.projectlist{
+    border-radius: 30px;
 }
 
 #projects{
-    min-height: 70vh;
+    min-height: 80vh;
     background: beige;
     width: 100%;
+    position: relative;
     text-align: center;
+}
+
+.project_list{
+    position: absolute;
+    top: 10vh;
+    font-size: 0;
+    width: 100%;
+    height: auto;
+}
+
+.project_container{
+    max-width: 300px;
+    max-height: 300px;
+    position: relative;
+    width: 25%;
+    height: auto;
+    display: inline-block;
+}
+
+
+.project_container img{
+    position: relative;
+    width: 100%;
+    height: auto;
 }
 
 #android{

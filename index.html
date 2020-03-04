@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/main_page.css">
     <link rel="stylesheet" href="css/anim.css">
     <script type="text/javascript" src="./main.js"></script>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
@@ -13,26 +14,43 @@
 <body onload="setStyles()">
     <div class="bg">
         <div id="navigation" style="z-index: 4;">
-            <ul id="navbar">
-                <li class="path">RESUME</li>
-                <li class="path">Public Projects</li>
-                <li class="path">Android Projects</li>
-            </ul>
+            <div id="navbar">
+                <ul>
+                    <li class="path">RESUME</li>
+                    <li class="path">Public Projects</li>
+                    <li class="path">Android Projects</li>
+                </ul>
+            </div>
+
         </div>
         <div class="content">
-            <div id="about" style="z-index: 1;">
+            <div id="about" style="z-index: 1;" onscroll="scrollTrigger(event)">
                 <div class="abcontainer" style="z-index: 3;">
-                    <div class="msg">SOFTWARE ENGINEER.</div>
-                    <div class="contact" style="margin-left: 20px;">RESUME</div>
-                    <div class="contact" style="margin-left: 20px;");">CONTACT</div>
+                    <div id="msg">DEVELOPER.</div>
+                    <div class="contacts">
+                        <div class="contact" style="margin-left: 20px;">RESUME</div>
+                        <div class="contact" style="margin-left: 20px;" );">CONTACT</div>
+                    </div>
                 </div>
             </div>
             <div id="projects">
-
+                <div class="project_list">
+                    <div class="project_container" style="margin-right: 10%">
+                        <img class="image" src="./resources/Pathfinder.png" alt="pathfinder">
+                        <div class="overlay"></div>
+                    </div>
+                    <div class="project_container" style="margin-right: 10%">
+                        <img class="image" src="./resources/Pathfinder.png" alt="pathfinder">
+                        <div class="overlay"></div>
+                    </div>
+                </div>
             </div>
             <div id="android">
 
             </div>
+        </div>
+        <div id="contactinfo">
+
         </div>
     </div>
 </body>
