@@ -164,7 +164,6 @@ body, html{
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0);
-    font-size: 0px;
     z-index: 3;
 }
 
@@ -175,16 +174,14 @@ body, html{
 
 .project_text{
     position: relative;
-    top: 50%;
+    padding-top: 40%;
     width: 100%;
     height: 100%;
-    font-size: 0px;
     color: white;
 }
 
 .project_text:hover{
-    transition: 1s;
-    font-size: 30px;
+    font-size: 2vw;
 }
 
 #android{
