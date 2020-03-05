@@ -132,30 +132,15 @@ div{
     text-align: center;
 }
 
-.project_list{
+.prj-list{
     margin: 5% 0px;
     position: relative;
     width: 100%;
     height: auto;
-    min-width: 100px;
-    min-height: 100px;
     display: inline-flex;
 }
 
-#android{
-    width: 100%;
-    position: relative; 
-    background: rgba(0, 255, 255, 0.384);
-}
-
-#contactinfo{
-    height: 30em;
-    font-size: 20px;
-    width: 100%;
-    background: black;
-}
-
-.container {
+.prj-container {
     position: relative;
     background: red;
     width: 100%;
@@ -164,13 +149,13 @@ div{
     display: inline-block;
 }
 
-.image {
+.prj-image {
     display: block;
     width: 100%;
     height: auto;
 }
 
-.overlay {
+.prj-overlay {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -184,15 +169,15 @@ div{
     text-align: center;
 }
 
-.container:hover .overlay {
+.prj-container:hover .prj-overlay {
     opacity: 1;
 }
 
-.icon{
+.prj-text{
     text-decoration: none;
 }
 
-.project-obj {
+.prj-obj {
     color: white;
     position: absolute;
     top: 55%;
@@ -203,7 +188,7 @@ div{
     text-align: center;
 }
 
-.project-title {
+.prj-title {
     color: white;
     position: relative;
     top: 40%;
@@ -214,9 +199,66 @@ div{
     text-align: center;
     text-decoration: none;
 }
-.project-explanation{
+.prj-exp{
     display: inline-block;
     text-align: center;
     font-size: 2vw;
     margin-bottom: 10px;
 }
+
+#android{
+    width: 100%;
+    min-height: 20vh;
+    position: relative; 
+    background: rgba(0, 255, 255);
+    z-index: 3;
+}
+
+#contactinfo{
+    height: 30em;
+    font-size: 20px;
+    width: 100%;
+    background: black;
+}
+
+@media only screen and (max-width: 700px) {
+    .prj-list{
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: inline-block;
+    }
+
+    .prj-container {
+        position: relative;
+        background: red;
+        width: 70%;
+        height: 100%;
+        margin: 5vh;
+        display: inline-block;
+    }
+
+    .prj-obj {
+        color: white;
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        font-size: 5vw;
+        min-width: 100%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    
+    .prj-title {
+        color: white;
+        position: relative;
+        top: 40%;
+        width: 100%;
+        font-size: 7vw;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+        text-decoration: none;
+    }
+  }
