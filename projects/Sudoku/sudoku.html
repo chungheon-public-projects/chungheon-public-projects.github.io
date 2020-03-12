@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Hello World BOOTSTRAP</title>
+    <title>Sudoku Puzzle (chungheon-public-projects)</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,6 +43,7 @@
         <button id="resetbtn" onclick="revert()">Remove Solution</button>
         <button id="solvebtn" onclick="runAlgo(1)">Solve Sudoku Puzzle</button>
         <button id="valbtn" onclick="validateSolution()">Validate Solution</button>
+        <button id="instantbtn" onclick="solveInstant(1)">Solve Instantly</button>
     </div>
     <div class="container">
         <div class="row justify-content-center align-items-center" id="row1">
@@ -52,6 +53,8 @@
         <div class="row justify-content-center align-items-center" id="row3">
         </div>
     </div>
+
+    <p id="message">WELCOME TO MY SUDOKU GENERATOR/SOLVER</p>
 </body>
 
 </html>

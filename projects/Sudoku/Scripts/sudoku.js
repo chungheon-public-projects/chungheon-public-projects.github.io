@@ -86,13 +86,6 @@ class SudokuGrid{
     }*/
 
     clickCell() {
-        /*
-        var myGrid = document.getElementById("sudokugrid");
-        for(var i = 0; i < 9; i++){
-            for(var j = 0; j < 9; j++){
-                myGrid.rows[i].cells[j].onmouseup = this.bindEvent(myGrid.rows[i].cells[j], i, j);
-            }
-        }*/
         for(var i = 0; i < 9; i++){
             for(var j = 0; j < 9; j++){
                 this.grid[i][j].bindClick(this);
@@ -125,7 +118,9 @@ class SudokuGrid{
     inputKey(key){
         if(key >= 48 && key < 58){
             if(this.selectedCol != -1 && this.selectedRow != -1){
+                this.clearStatus();
                 this.grid[this.selectedRow][this.selectedCol].insertNum(key - 48);
+                valid.checkQuestion(this.grid);
             }
         }
     }
@@ -155,41 +150,14 @@ class SudokuGrid{
             }
         }
     }
-
-    generateDefault(){
-        this.grid[0][1].insertNum(4);
-        this.grid[0][6].insertNum(8);
-        this.grid[1][0].insertNum(6);
-        this.grid[1][3].insertNum(3);
-        this.grid[1][4].insertNum(2);
-        this.grid[2][0].insertNum(1);
-        this.grid[2][5].insertNum(8);
-        this.grid[2][6].insertNum(2);
-        this.grid[3][3].insertNum(1);
-        this.grid[3][6].insertNum(9);
-        this.grid[3][8].insertNum(7);
-        this.grid[4][1].insertNum(7);
-        this.grid[4][4].insertNum(9);
-        this.grid[4][7].insertNum(5);
-        this.grid[5][0].insertNum(2);
-        this.grid[5][2].insertNum(9);
-        this.grid[5][5].insertNum(6);
-        this.grid[6][2].insertNum(1);
-        this.grid[6][3].insertNum(4);
-        this.grid[6][8].insertNum(8);
-        this.grid[7][4].insertNum(1);
-        this.grid[7][5].insertNum(5);
-        this.grid[7][5].insertNum(3);
-        this.grid[8][2].insertNum(7);
-        this.grid[8][7].insertNum(2);
-    }
 }
 
 function loadTable(){
     this.grid = new SudokuGrid();
     this.gridData = this.grid.renderGrid();
-    //document.getElementById("grid").innerHTML = gridData;
     this.grid.clickCell();
+    this.valid = new CheckPuzzle();
+    this.running = 0;
 }
 
 function inputKey(event) {
@@ -198,41 +166,85 @@ function inputKey(event) {
 }
 
 function clearGrid(){
-    this.grid.clearGrid();
-    this.grid.clearStatus();
+    if(this.running != 1){
+        this.grid.clearGrid();
+        this.grid.clearStatus();
+    }
 }
 
 function generateDefault(){
-    this.grid.generateDefault();
-    this.grid.clearStatus();
+    if(this.running != 1){
+        blockRun();
+        this.grid.clearGrid();
+        var generate = new GenerateAlgo(this.grid.grid);
+        generate.generatePuzzle();
+        this.grid.grid = generate.grid;
+        this.grid.clearStatus();
+    }
 }
 
-function revert(){
+function clearSolutions(){
     this.grid.revert();
     this.grid.clearStatus();
 }
 
+function revert(){
+    if(this.running != 1){
+        this.grid.revert();
+        this.grid.clearStatus();
+    }
+}
+
 function runAlgo(type){
-    var cp = new CheckPuzzle(this.grid.grid);
-    this.grid.clearStatus();
-    if(cp.checkPuzzle() == 0){
+    if(this.running == 1){
         return;
     }
-    var algorithm;
-    switch(type){
-        case 1: algorithm = new BruteForce(); break;
+    this.grid.clearStatus();
+    blockRun();
+    if(!this.valid.checkQuestion(this.grid.grid)){
+        return;
     }
-    algorithm.solvePuzzle(this.grid.grid);
+
+    var algo;
+    switch(type){
+        case 1: algo = new BruteForce(this.grid.grid);
+    }
+    algo.recursiveSolvePrep(0);
+    this.grid.grid = algo.grid;
+}
+
+function solveInstant(type){
+    if(this.running == 1){
+        return;
+    }
+    this.grid.clearStatus();
+    if(!this.valid.checkQuestion(this.grid.grid)){
+        return;
+    }
+
+    var algo;
+    switch(type){
+        case 1: algo = new BruteForce(this.grid.grid);
+    }
+    algo.recursiveSolvePrep(2);
+    this.grid.grid = algo.grid;
 }
 
 function validateSolution(){
-    var cp = new CheckPuzzle(this.grid.grid);
-    this.grid.clearStatus();
-    if(cp.validatePuzzle() == 0){
+    if(this.running == 1){
         return;
     }
+    this.valid.checkPuzzle(this.grid.grid);
 }
 
 function allowDrag(ev) {
     ev.preventDefault();
+}
+
+function blockRun(){
+    this.running = 1;
+}
+
+function unblockRun(){
+    this.running = 0;
 }

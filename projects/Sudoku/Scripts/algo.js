@@ -1,272 +1,467 @@
-class BruteForce{
-    constructor(){
-        this.grid = [];
-        this.emptyNodes = [];
-    }
-    solvePuzzle(grid){
+var check, check2;
+
+class GenerateAlgo {
+    constructor(grid) {
         this.grid = grid;
-        for(var i = 0; i < grid.length; i++){
-            for(var j = 0; j < grid[grid.length - 1].length; j++){
-                if(grid[i][j].number == 0){
-                    this.emptyNodes.push(grid[i][j]);
+    }
+
+    generatePuzzle() {
+        blockRun();
+        var brute = new BruteForce(this.grid);
+        brute.generateRandomComplete();
+        this.grid = brute.grid;
+        var noHole = Math.floor(Math.random() * 10) + 54;
+        var available = [];
+        for(var r of this.grid){
+            for(var c of r){
+                available.push(c);
+            }
+        }
+
+        for(var hole = 0; hole < noHole; hole++){
+            var randIdx = Math.floor(Math.random() * available.length);
+            var randNode = available[randIdx];
+            var temp = randNode.number;
+            this.grid[randNode.rowNum][randNode.colNum].setNum(0);
+            var count = 0;
+            while(!brute.numSolutions(this.grid)){
+                this.grid[randNode.rowNum][randNode.colNum].insertNum(temp);
+                randIdx = Math.floor(Math.random() * available.length);
+                randNode = available[randIdx];
+                temp = randNode.number;
+                this.grid[randNode.rowNum][randNode.colNum].insertNum(0);
+                if(count == 5){
+                    break;
+                }
+                count++;
+            }
+            available.splice(randIdx, 1);
+        }
+
+        unblockRun();
+    }
+
+}
+
+class BruteForce {
+    constructor(grid) {
+        this.grid = grid;
+        this.emptyNodes = [];
+        this.recCount = 0;
+        this.testWalk = 0;
+        this.solutions = 0;
+    }
+    
+    numSolutions(grid){
+        this.grid = grid;
+        this.emptyNodes = [];
+        this.numSolutionsPrep();
+        clearSolutions();
+        if(this.solutions > 1 || this.solutions == 0){
+            this.solutions = 0;
+            return false;
+        }
+        this.solutions = 0;
+        return true;
+
+    }
+    numSolutionsPrep(){
+        for(var y = 0; y < this.grid.length; y++){
+            for(var x = 0; x < this.grid[y].length; x++){
+                if(this.grid[y][x].number == 0){
+                    this.emptyNodes.push(this.grid[y][x]);
                 }
             }
         }
-        var solved = 0;
+
+        this.findSolutions(0);
+    }
+
+    findSolutions(walker){
+        if(walker == this.emptyNodes.length){
+            return true;
+        }
+
+
+        var currNode = this.emptyNodes[walker];
+        var possible = this.getPossiblities(this.grid, this.grid[currNode.rowNum][currNode.colNum]);
+        for(var p of possible){
+            if(this.checkPossible(currNode, p)){
+                this.recCount++;
+                this.grid[currNode.rowNum][currNode.colNum].setNum(p, this.recCount);
+                if(this.findSolutions(walker + 1)){
+                    this.solutions += 1;
+                    if(walker != 0){
+                        this.grid[currNode.rowNum][currNode.colNum].setNum(0);
+                    }
+                }
+            }
+        }
+        if(this.solutions <= 1){
+            this.grid[currNode.rowNum][currNode.colNum].setNum(0);
+        }
+        return false;
+    }
+
+    //if type = 0, animate solve; as part of solution. 
+    //if type = 1, set number as part of new puzzle. 
+    //if type = 2, set number as part of solution
+    recursiveSolvePrep(type){
+        for(var y = 0; y < this.grid.length; y++){
+            for(var x = 0; x < this.grid[y].length; x++){
+                if(this.grid[y][x].number == 0){
+                    if(type == 1){
+                        this.emptyNodes.push(this.grid[y][x]);
+                    }
+                    else{
+                        var possible = this.getPossiblities(this.grid, this.grid[y][x]);
+                        if(possible.length == 1){
+                            switch(type){
+                                case 0: this.grid[y][x].animInsert(possible[0], this.recCount);
+                                        this.recCount++;
+                                        break;
+                                case 2: this.grid[y][x].setNum(possible[0]);
+                                        break;
+                            }
+                        }else{
+                            this.emptyNodes.push(this.grid[y][x]); 
+                        }
+                    }
+                }
+            }
+        }
+
         if(this.emptyNodes.length == 0){
-            return;
+            return true;
         }
-        
-        var walker = 0;
-        var count = 0;
-        while(solved == 0){
-            var currNode = this.emptyNodes[walker];
-            var checkValid = currNode.number + 1;
-            if(this.checkValid(checkValid, currNode) == 1 && checkValid != 10){
-                this.emptyNodes[walker].animInsert(checkValid, count);
-                this.grid[currNode.rowNum][currNode.colNum].number = checkValid;
-                walker++;
-                count++;
-            }else if(checkValid == 10){
-                this.emptyNodes[walker].animInsert(0, count);
-                this.grid[currNode.rowNum][currNode.colNum].number = 0;
-                walker--;
-                count--;
-            }else{
-                this.emptyNodes[walker].number++;   
-            }
-            
-            if(walker == this.emptyNodes.length){
-                solved = 1;
+
+        //Unable to find solution then remove attempt
+        if(!this.recursiveSolve(0, type)){
+            revert();
+        }
+
+        if(type == 0){
+            setTimeout(this.clearSelected, this.recCount * 10);
+        }
+    }
+
+    //if type = 0, animate solve; as part of solution. 
+    //if type = 1, set number as part of new puzzle. 
+    //if type = 2, set number as part of solution
+    recursiveSolve(walker, type){
+        if(walker == this.emptyNodes.length){
+            return true;
+        }
+
+        var currNode = this.emptyNodes[walker];
+        var possible = this.getPossiblities(this.grid, currNode);
+        if(type == 1){
+            this.shuffleArray(possible);
+        }
+        for(var p of possible){
+            if(this.checkPossible(this.emptyNodes[walker], p)){
+                switch(type){
+                    case 0: this.grid[currNode.rowNum][currNode.colNum].animInsert(p, this.recCount);
+                            this.recCount++;
+                            break;
+                    case 1: this.grid[currNode.rowNum][currNode.colNum].insertNum(p);
+                            break;
+                    case 2: this.grid[currNode.rowNum][currNode.colNum].setNum(p);
+                            break;
+                }
+                if(this.recursiveSolve(walker + 1, type)){
+                    return true;
+                }
             }
         }
-        setTimeout(this.clearSelected, (count + 1) * 100);
-        
+
+        switch(type){
+            case 0: this.grid[currNode.rowNum][currNode.colNum].animInsert(0, this.recCount);
+                    this.recCount++;
+                    break;
+            case 1: this.grid[currNode.rowNum][currNode.colNum].insertNum(0);
+                    break;
+            case 2: this.grid[currNode.rowNum][currNode.colNum].setNum(0);
+                    break;
+        }
+        return false;
+    }
+
+    generateRandomComplete(){
+        this.recursiveSolvePrep(1);
     }
 
     clearSelected(){
-        var curr = document.getElementsByClassName("currentNode");
-        for(var e of curr){
-                e.classList.remove("currentNode");
+        var lastNode = document.getElementsByClassName('currentNode');
+        for(var node of lastNode){
+            node.classList.remove('currentNode');
         }
+        unblockRun();
     }
 
-    checkValid(checkNum, emptyNode){
-        for(var i = 0; i < 9; i++){
-            if(this.grid[emptyNode.rowNum][i].number == checkNum){
-                return 0;
+    checkPossible(currNode, val) {
+        for (var i = 0; i < this.grid.length; i++) {
+            if (this.grid[i][currNode.colNum].number == val) {
+                return false;
             }
-
-            if(this.grid[i][emptyNode.colNum].number == checkNum){
-                return 0;
+            if (this.grid[currNode.rowNum][i].number == val) {
+                return false;
             }
         }
-        
-        if(this.checkBox(checkNum, emptyNode.rowNum, emptyNode.colNum) == 0){
-            return 0;
-        }   
 
-        return 1;
-    }
+        var rowStart = Math.floor(currNode.rowNum / 3) * 3;
+        var colStart = Math.floor(currNode.colNum / 3) * 3;
 
-    checkBox(checkNum, rowNum, colNum){
-        var baseRow = -1;
-        var baseCol = -1;
-        if(rowNum < 3){
-            baseRow = 0;
-        }else if(rowNum < 6){
-            baseRow = 3;
-        }else{
-            baseRow = 6;
-        }
-
-        if(colNum < 3){
-            baseCol = 0;
-        }else if(colNum < 6){
-            baseCol = 3;
-        }else{
-            baseCol = 6;
-        }
-
-        var temp = baseCol;
-        for(var i = 0; i < 3; i++){
-            for(var j = 0; j < 3; j++){
-                if(checkNum == this.grid[baseRow][baseCol].number){
-                    return 0;
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
+                if (this.grid[rowStart + i][colStart + j].number == val) {
+                    return false;
                 }
-                baseCol++;
             }
-            baseRow++;
-            baseCol = temp;
         }
 
-        return 1;
+        return true;
     }
+
+    getPossiblities(grid, currNode) {
+        var possibleNumRow = [];
+        var map = new Map([[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0]]);
+        for (var i = 0; i < grid.length; i++) {
+            if (grid[i][currNode.colNum].number != 0) {
+                map.set(grid[i][currNode.colNum].number, 1);
+            }
+            if (grid[currNode.rowNum][i].number != 0) {
+                map.set(grid[currNode.rowNum][i].number, 1);
+            }
+        }
+
+        var rowStart = Math.floor(currNode.rowNum / 3) * 3;
+        var colStart = Math.floor(currNode.colNum / 3) * 3;
+
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
+                if (grid[rowStart + i][colStart + j].number != 0) {
+                    map.set(grid[currNode.rowNum][i].number, 1);
+                }
+            }
+        }
+
+        for (var keySet of map) {
+            if (keySet[1] == 0) {
+                possibleNumRow.push(keySet[0]);
+            }
+        }
+
+        return possibleNumRow;
+    }
+
+    shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+
+    /*
+    //Non-Recursive Method
+    solvePuzzle(mode) {
+        var count = 1;
+        for(var y = 0; y < this.grid.length; y++){
+            for(var x = 0; x < this.grid[y].length; x++){
+                if(this.grid[y][x].number == 0){
+                    var possible = this.getPossiblities(this.grid, this.grid[y][x]);
+                    if(possible.length == 1){
+                        this.grid[y][x].animInsert(possible[0], count);
+                        count++;
+                    }else{
+                        this.grid[y][x].possible = possible;
+                        this.grid[y][x].walker = 0;
+                        this.emptyNodes.push(this.grid[y][x]);
+                    }
+                }
+            }
+        }
+
+        if(this.emptyNodes.length == 0){
+            return false;
+        }
+        var solved = 0;
+        var walker = 0;
+        var valWalk;
+        while(solved == 0){
+            var currNode = this.emptyNodes[walker];
+            for(valWalk = currNode.walker; valWalk < currNode.possible.length; valWalk++){
+                if(this.checkPossible(currNode, currNode.possible[valWalk])){
+                    count++;
+                    walker++;
+                    currNode.walker = valWalk + 1;
+                    this.grid[currNode.rowNum][currNode.colNum].animInsert(currNode.possible[valWalk], count);
+                    break;
+                }
+            }
+
+            if(valWalk >= currNode.possible.length){
+                if(mode == 1){
+                    count--; 
+                }else{
+                    count++;
+                }
+                walker--;
+                currNode.walker = 0;
+                currNode.number = 0;
+                this.grid[currNode.rowNum][currNode.colNum].animInsert(0, count);
+            }
+
+            if(walker == this.emptyNodes.length){
+                solved = 1;
+            }
+
+            if(walker == -1){
+                return false;
+            }
+        }
+
+        this.lastNode = this.emptyNodes[this.emptyNodes.length - 1];
+
+        setTimeout(this.clearSelected, count * 10);
+        
+        return true;
+    }
+
+    solveInstantly(mode) {
+        var count = 1;
+        for(var y = 0; y < this.grid.length; y++){
+            for(var x = 0; x < this.grid[y].length; x++){
+                if(this.grid[y][x].number == 0){
+                    var possible = this.getPossiblities(this.grid, this.grid[y][x]);
+                    if(possible.length == 1){
+                        this.grid[y][x].animInsert(possible[0], count);
+                        count++;
+                    }else{
+                        this.shuffleArray(possible);
+                        this.grid[y][x].possible = possible;
+                        this.grid[y][x].walker = 0;
+                        this.emptyNodes.push(this.grid[y][x]);
+                    }
+                }
+            }
+        }
+
+        if(this.emptyNodes.length == 0){
+            return false;
+        }
+        var solved = 0;
+        var walker = 0;
+        var valWalk;
+        while(solved == 0){
+            var currNode = this.emptyNodes[walker];
+            for(valWalk = currNode.walker; valWalk < currNode.possible.length; valWalk++){
+                if(this.checkPossible(currNode, currNode.possible[valWalk])){
+                    count++;
+                    walker++;
+                    currNode.walker = valWalk + 1;
+                    if(mode == 0){
+                        this.grid[currNode.rowNum][currNode.colNum].setNum(currNode.possible[valWalk]);
+                    }else{
+                        this.grid[currNode.rowNum][currNode.colNum].insertNum(currNode.possible[valWalk]);
+                    }
+                    break;
+                }
+            }
+
+            if(valWalk >= currNode.possible.length){
+                walker--;
+                currNode.walker = 0;
+                currNode.number = 0;
+                if(mode == 0){
+                    this.grid[currNode.rowNum][currNode.colNum].setNum(0);
+                }else{
+                    this.grid[currNode.rowNum][currNode.colNum].insertNum(0);
+                }
+                
+            }
+
+            if(walker == this.emptyNodes.length){
+                solved = 1;
+            }
+
+            if(walker == -1){
+                return false;
+            }
+        }
+
+        this.lastNode = this.emptyNodes[this.emptyNodes.length - 1];
+
+        this.clearSelected();
+        
+        return true;
+    }*/
+
 }
 
-class CheckPuzzle{
-    constructor(grid){
+class CheckPuzzle {
+
+    checkQuestion(grid){
+        var valid = true;
         this.grid = grid;
-        this.puzzleNodes = [];
-    }
-
-    validatePuzzle(){
-        var check = 1;
-        for(var i = 0; i < 9; i++){
-            for(var j = 0; j < 9; j++){
-                if(this.grid[i][j].number != 0){
-                    this.puzzleNodes.push(this.grid[i][j]);
-                }else{
-                    this.grid[i][j].invalid();
+        for(var r of this.grid){
+            for(var j of r){
+                if(j.number != 0 && !this.checkPossible(j, j.number)){
+                    j.invalid();
+                    valid = false;
                 }
             }
         }
-        if(this.puzzleNodes.length != 81){
-            check = 0;
-        }
-        for(var node of this.puzzleNodes){
-            if(this.validateCheck(node.number, node) == 0){
-                console.log("entered");
-                check = 0;
-            }
-        }
 
-        return check;
+        return valid;
     }
 
-    validateCheck(checkNum, currNode){
-        var check = 1;
-        for(var i = 0; i < 9; i++){
-            if(this.grid[currNode.rowNum][i].number == checkNum && i != currNode.colNum){
-                this.grid[currNode.rowNum][i].invalid();
-                check = 0;
+    checkPuzzle(grid){
+        var valid = true;
+        this.grid = grid;
+        for(var r of this.grid){
+            for(var j of r){
+                if(!this.checkPossible(j, j.number)){
+                    j.invalid();
+                    valid = false;
+                }
             }
-            
-            if(this.grid[i][currNode.colNum].number == checkNum && i != currNode.rowNum){
+        }
+
+        return valid;
+    }
+    
+    checkPossible(currNode, val) {
+        var valid = true;
+        if(val == 0){
+            return false;
+        }
+
+        for (var i = 0; i < this.grid.length; i++) {
+            if (this.grid[i][currNode.colNum].number == val && i != currNode.rowNum) {
+                valid = false;
                 this.grid[i][currNode.colNum].invalid();
-                check = 0;
             }
-        }
-        
-        if(this.validateBox(checkNum, currNode.rowNum, currNode.colNum) == 0){
-            console.log("entered 2");
-           check = 0;
-        }   
-
-        return check;
-    }
-
-    validateBox(checkNum, rowNum, colNum){
-        var baseRow = -1;
-        var baseCol = -1;
-        var check = 1;
-        if(rowNum < 3){
-            baseRow = 0;
-        }else if(rowNum < 6){
-            baseRow = 3;
-        }else{
-            baseRow = 6;
-        }
-
-        if(colNum < 3){
-            baseCol = 0;
-        }else if(colNum < 6){
-            baseCol = 3;
-        }else{
-            baseCol = 6;
-        }
-
-        var temp = baseCol;
-        for(var i = 0; i < 3; i++){
-            for(var j = 0; j < 3; j++){
-                if(checkNum == this.grid[baseRow][baseCol].number && baseRow != rowNum && baseCol != colNum){
-                    this.grid[baseRow][baseCol].invalid();
-                    check = 0;
-                }
-                baseCol++;
-            }
-            baseRow++;
-            baseCol = temp;
-        }
-
-        return check;
-    }
-
-    checkPuzzle(){
-        var check = 1;
-        for(var i = 0; i < 9; i++){
-            for(var j = 0; j < 9; j++){
-                if(this.grid[i][j].number != 0){
-                    this.puzzleNodes.push(this.grid[i][j]);
-                }
-            }
-        }
-        if(this.puzzleNodes.length == 81){
-            return 0;
-        }
-        for(var node of this.puzzleNodes){
-            if(this.checkValid(node.number, node) == 0){
-                check = 0;
-            }
-        }
-
-        return check;
-    }
-
-    checkValid(checkNum, currNode){
-        var check = 1;
-        for(var i = 0; i < 9; i++){
-            if(this.grid[currNode.rowNum][i].number == checkNum && i != currNode.colNum){
+            if (this.grid[currNode.rowNum][i].number == val && i != currNode.colNum) {
+                valid = false;
                 this.grid[currNode.rowNum][i].invalid();
-                check = 0;
-            }
-            
-            if(this.grid[i][currNode.colNum].number == checkNum && i != currNode.rowNum){
-                this.grid[i][currNode.colNum].invalid();
-                check = 0;
             }
         }
-        
-        if(this.checkBox(checkNum, currNode.rowNum, currNode.colNum) == 0){
-            check = 0;
-        }   
 
-        return check;
-    }
+        var rowStart = Math.floor(currNode.rowNum / 3) * 3;
+        var colStart = Math.floor(currNode.colNum / 3) * 3;
 
-    checkBox(checkNum, rowNum, colNum){
-        var baseRow = -1;
-        var baseCol = -1;
-        var check = 1;
-        if(rowNum < 3){
-            baseRow = 0;
-        }else if(rowNum < 6){
-            baseRow = 3;
-        }else{
-            baseRow = 6;
-        }
-
-        if(colNum < 3){
-            baseCol = 0;
-        }else if(colNum < 6){
-            baseCol = 3;
-        }else{
-            baseCol = 6;
-        }
-
-        var temp = baseCol;
-        for(var i = 0; i < 3; i++){
-            for(var j = 0; j < 3; j++){
-                if(checkNum == this.grid[baseRow][baseCol].number && baseRow != rowNum && baseCol != colNum){
-                    this.grid[baseRow][baseCol].invalid();
-                    check = 0;
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
+                if (this.grid[rowStart + i][colStart + j].number == val && (rowStart + i) != currNode.rowNum && (colStart + j) != currNode.colNum) {
+                    valid = false;
+                    this.grid[rowStart + i][colStart + j].invalid();
                 }
-                baseCol++;
             }
-            baseRow++;
-            baseCol = temp;
         }
 
-        return check;
+        return valid;
     }
 }

@@ -41,6 +41,11 @@ button{
     margin-left: 10px;
 }
 
+.qns{
+    background-color: rgba(0, 0, 0, 0.100);
+}
+
 .invalid{
     background: red;
 }
+

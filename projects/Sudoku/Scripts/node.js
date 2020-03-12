@@ -5,6 +5,8 @@ class Node{
         this.number = 0;
         //0 means it was part of the base, 1 means manually added
         this.base = 0;
+        this.walker = 0;
+        this.possible;
     }
 
     render(){
@@ -20,23 +22,30 @@ class Node{
             element.innerText = "";
             this.number = val;
             this.base = 0;
+            element.classList.remove("qns");
             return;
         }
         this.base = 1;
         this.number = val;
         element.innerText = val;
+        element.classList.add("qns");
     }
 
-    animInsert(val, count){
+    setNum(val){
         var element = document.getElementById("node-" + this.rowNum + "-" + this.colNum);
         if(val == 0){
-            this.base = 0;
             element.innerText = "";
             this.number = val;
+            this.base = 0;
             return;
         }
         this.number = val;
-        setTimeout(this.addNum, count * 100, val, this.rowNum, this.colNum);
+        element.innerText = val;
+    }
+
+    animInsert(val, count){
+        this.number = val;
+        setTimeout(this.addNum, count * 10, val, this.rowNum, this.colNum);
     }
 
     addNum(val, rowNum, colNum){
@@ -47,7 +56,9 @@ class Node{
         }
         element.classList.add("currentNode");
         if(val == 0){
+            this.base = 0;
             element.innerText = "";
+            this.number = val;
             return;
         }
         element.innerText = val;
@@ -75,6 +86,12 @@ class Node{
 
     clearStatus(){
         var element = document.getElementById("node-" + this.rowNum + "-" + this.colNum);
-        element.classList = "";
+        if(element.classList.contains("qns")){
+            element.classList = "";
+            element.classList.add("qns");
+        }else{
+            element.classList = "";
+        }
+        
     }
 }
