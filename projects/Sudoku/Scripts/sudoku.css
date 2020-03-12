@@ -21,14 +21,21 @@ body{
     text-align: center;
 }
 
+.message{
+    font-size: 1vw;
+}
+
 td:hover{
     background-color: #ffff99;
 }
 
+.container{
+    min-width: 475px;
+}
 .row .minigrid{
     border: 2px solid black;
-    width: 125px;
-    height: 125px;
+    min-width: 125px;
+    min-height: 125px;
 }
 
 .selected{
@@ -52,4 +59,5 @@ button{
 .invalid{
     background: red;
 }
+
 
