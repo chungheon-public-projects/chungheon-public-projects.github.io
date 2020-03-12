@@ -17,6 +17,10 @@ table th,td {
     cursor: pointer;
 }
 
+body{
+    text-align: center;
+}
+
 td:hover{
     background-color: #ffff99;
 }
