@@ -132,6 +132,7 @@ class BruteForce {
         }
 
         if(this.emptyNodes.length == 0){
+            unblockRun();
             return true;
         }
 
