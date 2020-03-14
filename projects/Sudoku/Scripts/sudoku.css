@@ -19,6 +19,7 @@ table th,td {
 
 body{
     text-align: center;
+    min-width: 475px;
 }
 
 .message{
@@ -29,9 +30,6 @@ td:hover{
     background-color: #ffff99;
 }
 
-.container{
-    min-width: 475px;
-}
 .row .minigrid{
     border: 2px solid black;
     min-width: 125px;

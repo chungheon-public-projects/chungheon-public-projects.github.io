@@ -3,6 +3,46 @@ var check, check2;
 class GenerateAlgo {
     constructor(grid) {
         this.grid = grid;
+        this.available = [];
+        this.recCount = 0;
+    }
+
+    animPuzzleGen(){
+        this.brute = new BruteForce(this.grid);
+        var gen = this;
+        this.brute.generateRandomComplete();
+        this.grid = this.brute.grid;
+        var noHole = Math.floor(Math.random() * 10) + 54;
+        for(var r of this.grid){
+            for(var c of r){
+                this.available.push(c);
+            }
+        }
+
+        this.tryRemove(noHole, 5, gen);
+
+    }
+
+    tryRemove(noHole, count, gen){
+        if(noHole == 0){
+            unblockRun();
+            return;
+        }
+        var randIdx = Math.floor(Math.random() * gen.available.length);
+        var randNode = gen.available[randIdx];
+        var temp = randNode.number;
+        gen.grid[randNode.rowNum][randNode.colNum].insertNum(0);
+        gen.recCount++;
+        if(gen.brute.numSolutions(gen.grid)){
+            gen.available.splice(randIdx, 1);
+            setTimeout(gen.tryRemove, gen.recCount * 1, noHole - 1, gen.available.length, gen);
+        }else if(count == 0){
+            gen.grid[randNode.rowNum][randNode.colNum].insertNum(temp);
+            setTimeout(gen.tryRemove, gen.recCount * 1, noHole - 1, gen.available.length, gen);
+        }else{
+            gen.grid[randNode.rowNum][randNode.colNum].insertNum(temp);
+            setTimeout(gen.tryRemove, gen.recCount * 1, noHole, count - 1, gen);
+        }
     }
 
     generatePuzzle() {
@@ -117,8 +157,7 @@ class BruteForce {
                         var possible = this.getPossiblities(this.grid, this.grid[y][x]);
                         if(possible.length == 1){
                             switch(type){
-                                case 0: this.grid[y][x].animInsert(possible[0], this.recCount);
-                                        this.recCount++;
+                                case 0: this.emptyNodes.push(this.grid[y][x]); 
                                         break;
                                 case 2: this.grid[y][x].setNum(possible[0]);
                                         break;

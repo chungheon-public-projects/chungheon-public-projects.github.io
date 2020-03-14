@@ -8,8 +8,11 @@ function setStyles() {
   var navBar = document.getElementById("navbar");
   navBar.style.background = "rgba(0, 0, 0, 0)";
 
-
   addAnim();
+}
+
+function scrollToWeb(){
+  document.getElementById("projects").scrollIntoView();
 }
 
 window.onscroll = function () { scrollFunction() };

@@ -42,11 +42,23 @@ div{
     padding: 15px 20px;
     font-weight: bold;
     color: rgb(230, 230, 230);
-    cursor: default;
+    cursor: pointer;
     margin-right: 10px;
 }
 
 #navigation ul li:hover{
+    color: rgb(243, 228, 96);
+    transform: scale(1.1);
+    transition: 0.4s;
+}
+
+#navigation ul a{
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+#navigation ul a:hover{
     color: rgb(243, 228, 96);
     transform: scale(1.1);
     transition: 0.4s;

@@ -155,6 +155,7 @@ class SudokuGrid{
 function loadTable(){
     this.grid = new SudokuGrid();
     this.gridData = this.grid.renderGrid();
+    this.gen = new GenerateAlgo();
     this.grid.clickCell();
     this.valid = new CheckPuzzle();
     this.running = 0;
@@ -176,10 +177,8 @@ function generateDefault(){
     if(this.running != 1){
         blockRun();
         this.grid.clearGrid();
-        var generate = new GenerateAlgo(this.grid.grid);
-        generate.generatePuzzle();
-        this.grid.grid = generate.grid;
-        this.grid.clearStatus();
+        this.gen.grid = this.grid.grid;
+        this.gen.animPuzzleGen();
     }
 }
 
@@ -200,11 +199,10 @@ function runAlgo(type){
         return;
     }
     this.grid.clearStatus();
-    blockRun();
     if(!this.valid.checkQuestion(this.grid.grid)){
         return;
     }
-
+    blockRun();
     var algo;
     switch(type){
         case 1: algo = new BruteForce(this.grid.grid);
@@ -221,11 +219,12 @@ function solveInstant(type){
     if(!this.valid.checkQuestion(this.grid.grid)){
         return;
     }
-
+    
     var algo;
     switch(type){
         case 1: algo = new BruteForce(this.grid.grid);
     }
+
     algo.recursiveSolvePrep(2);
     this.grid.grid = algo.grid;
 }
@@ -247,4 +246,5 @@ function blockRun(){
 
 function unblockRun(){
     this.running = 0;
+    alert("DONE!");
 }
