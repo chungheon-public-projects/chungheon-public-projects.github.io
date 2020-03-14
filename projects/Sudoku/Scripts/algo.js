@@ -5,6 +5,7 @@ class GenerateAlgo {
         this.grid = grid;
         this.available = [];
         this.recCount = 0;
+        this.currAvail = [];
     }
 
     animPuzzleGen(){
@@ -12,36 +13,42 @@ class GenerateAlgo {
         var gen = this;
         this.brute.generateRandomComplete();
         this.grid = this.brute.grid;
-        var noHole = Math.floor(Math.random() * 10) + 54;
+        var noHole = Math.floor(Math.random() * 10) + 60;
         for(var r of this.grid){
             for(var c of r){
                 this.available.push(c);
             }
         }
-
+        this.currAvail = [].concat(this.available);
         this.tryRemove(noHole, 5, gen);
 
     }
 
     tryRemove(noHole, count, gen){
-        if(noHole == 0){
+        if(noHole == 0 || count == 0){
             unblockRun();
+            gen.available = [];
             return;
         }
-        var randIdx = Math.floor(Math.random() * gen.available.length);
-        var randNode = gen.available[randIdx];
+
+        var randIdx = Math.floor(Math.random() * gen.currAvail.length);
+        var randNode = gen.currAvail[randIdx];
         var temp = randNode.number;
         gen.grid[randNode.rowNum][randNode.colNum].insertNum(0);
         gen.recCount++;
         if(gen.brute.numSolutions(gen.grid)){
             gen.available.splice(randIdx, 1);
-            setTimeout(gen.tryRemove, gen.recCount * 1, noHole - 1, gen.available.length, gen);
-        }else if(count == 0){
+            gen.currAvail = [].concat(gen.available);
+            setTimeout(gen.tryRemove, gen.recCount, noHole - 1, gen.currAvail.length, gen);
+        }else if(count == 1){
             gen.grid[randNode.rowNum][randNode.colNum].insertNum(temp);
-            setTimeout(gen.tryRemove, gen.recCount * 1, noHole - 1, gen.available.length, gen);
+            unblockRun();
+            gen.available = [];
+            return;
         }else{
             gen.grid[randNode.rowNum][randNode.colNum].insertNum(temp);
-            setTimeout(gen.tryRemove, gen.recCount * 1, noHole, count - 1, gen);
+            gen.currAvail.splice(randIdx, 1);
+            setTimeout(gen.tryRemove, gen.recCount, noHole, gen.currAvail.length, gen);
         }
     }
 
