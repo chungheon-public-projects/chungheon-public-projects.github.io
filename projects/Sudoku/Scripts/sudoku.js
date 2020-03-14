@@ -95,16 +95,18 @@ class SudokuGrid{
 
     bindEvent(cell, i ,j){
         var su = this;
-        cell.addEventListener('mouseup', e => {
+        cell.addEventListener('mousedown', e => {
             su.nodeEnter(i, j);
         });
     }
 
     nodeEnter(i, j){
-        this.clearSelected();
-        this.grid[i][j].selected();
-        this.selectedRow = i;
-        this.selectedCol = j;
+        if(running == 0){
+            this.clearSelected();
+            this.grid[i][j].selected();
+            this.selectedRow = i;
+            this.selectedCol = j;
+        }
     }
     
     clearSelected() {
